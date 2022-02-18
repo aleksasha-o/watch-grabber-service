@@ -1,8 +1,12 @@
 # frozen_string_literal: true
+require_relative 'services/link_parsers/get_page'
+require_relative 'services/link_parsers/links_parser'
+require_relative 'services/shop_hodinkee/shop_hodinkee'
 
-require_relative 'services/products_links/get_products_links'
+@example = GetPage.new(url: 'https://www.bobswatches.com/shop', tag: '.item form a').get_page
+puts LinksParser.new(url: @example, tag: '.item form a')
+                .parse
+                .map { |item| 'https://www.bobswatches.com/shop' << item }
 
-@example = GetProductsLinks.new(url: "https://www.bobswatches.com/shop", tag: '.item form a')
-@example2 = GetProductsLinks.new(url: 'https://www.chronext.com/buy', tag: '.product-tile .product-tile__wrapper > *:last-child')
-puts @example.parse_links_with_js
-puts @example2.parse_links_without_js
+puts "_______________________________________________________________________________"
+puts ShopHodinkee.new.links_list
