@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'ferrum'
 
-class GetPage
+class Browser
   RETRY_INTERVAL = 0.03
   TIMEOUT = 5
 
@@ -12,7 +12,7 @@ class GetPage
     @tag = tag
   end
 
-  def get_page
+  def visit
     browser
     @browser.go_to(@url)
     wait_for_element(@tag)
