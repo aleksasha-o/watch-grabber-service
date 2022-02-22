@@ -2,13 +2,19 @@
 require 'nokogiri'
 
 class Parser
-  def initialize(url:, tag:)
-    @url = url
-    @tag = tag
+  def initialize(html)
+    @html = html
   end
 
-  def parse_links
-    @doc = Nokogiri::HTML(@url)
-    @doc.search(@tag).map { |link| link[:href] }
+  def parse_links(tag)
+    Nokogiri::HTML(@html).search(tag).map { |link| link[:href] }
+  end
+
+  def parse_link(tag)
+    parse_links(tag)[0]
+  end
+
+  def parse_content(tag)
+    Nokogiri::HTML(@html).search(tag).map(&:content)
   end
 end
