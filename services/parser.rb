@@ -14,7 +14,7 @@ class Parser
     parse_links(tag)[0]
   end
 
-  def parse_content(tag)
+  def parse_content_by_tag(tag)
     Nokogiri::HTML(@html).search(tag).map(&:content)
   end
 end

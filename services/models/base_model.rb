@@ -7,10 +7,7 @@ module Models
                   :movement_type, :papers, :box, :year,	:gender, :crystal
 
     def initialize(**args)
-      @brand = brand
-      @model = model
-      @price = price
-      @case_material = case_material
+      args.each { |key, value| instance_variable_set("@#{key}", value) unless value.nil? }
     end
   end
 end

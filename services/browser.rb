@@ -7,16 +7,20 @@ class Browser
 
   class NotFoundError < StandardError; end
 
-  def initialize(url:, tag:)
-    @url = url
+  def visit(url:, tag:)
     @tag = tag
-  end
+    @load_time = 0
 
-  def visit
-    browser.go_to(@url)
+    browser.network.intercept
+    browser.on(:request) do |request|
+      next request.abort if request.match?(/\.png|\.jpg|\.jpeg|\.svg|\.woff2/)
+
+      request.continue
+    end
+    browser.go_to(url)
     wait_for_element
 
-    save_body
+    body
     browser.quit
 
     @body
@@ -25,22 +29,18 @@ class Browser
   private
 
   def browser
-    @browser ||= Ferrum::Browser.new(timeout: 15)
+    @browser ||= Ferrum::Browser.new(pending_connection_errors: false)
   end
 
   def wait_for_element
-    load_time = 0
-    begin
-      raise NotFoundError unless @browser.at_css(@tag)
-    rescue NotFoundError
-      sleep RETRY_INTERVAL
-      load_time += RETRY_INTERVAL
-      retry if load_time <= TIMEOUT
-      raise "Couldn't find element #{@tag} on #{@url}"
-    end
+    raise NotFoundError if @browser.at_css(@tag).nil?
+  rescue NotFoundError, Ferrum::NodeNotFoundError
+    sleep RETRY_INTERVAL
+    @load_time += RETRY_INTERVAL
+    retry if @load_time <= TIMEOUT
   end
 
-  def save_body
+  def body
     @body = browser.body
   end
 end
