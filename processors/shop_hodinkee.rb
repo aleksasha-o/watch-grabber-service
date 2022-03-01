@@ -20,7 +20,7 @@ module Processors
       full_url = "#{HOST}#{PAGINATION_SELECTOR}#{@page}"
       page_content = browser.visit(url: full_url, tag: '.product-title')
 
-      items_urls = parser(content: page_content).parse_links('.product-title')
+      items_urls = parser(content: page_content).product_links('.product-title')
       items_urls.each do |item_url|
         full_item_url = "#{HOST}#{item_url}"
 

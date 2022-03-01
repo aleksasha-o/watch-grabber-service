@@ -2,7 +2,7 @@
 require 'ferrum'
 
 class Browser
-  attr_accessor :tag
+  attr_accessor :tag, :body
 
   RETRY_INTERVAL = 0.03
   TIMEOUT = 5

@@ -7,7 +7,6 @@ module Models
 
     def initialize(**args)
       super
-      @water_resistance = water_resistance
     end
 
   end
