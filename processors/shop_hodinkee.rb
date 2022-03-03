@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require_relative '../services/browser'
-require_relative '../services/parser'
+require_relative '../services/parser/parser'
 require_relative '../models/shop_hodinkee_model'
 
 module Processors
