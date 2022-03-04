@@ -2,6 +2,8 @@
 require 'ferrum'
 
 class Browser
+  include Singleton
+
   attr_accessor :tag, :body
 
   RETRY_INTERVAL = 0.03
@@ -20,16 +22,17 @@ class Browser
     browser.go_to(url)
     wait_for_element
 
-    body
-    browser.quit
+    browser.body
+  end
 
-    @body
+  def exit_browser
+    browser.quit
   end
 
   private
 
   def browser
-    @browser ||= Ferrum::Browser.new(pending_connection_errors: false)
+    @browser ||= Ferrum::Browser.new(pending_connection_errors: false, headless: true)
   end
 
   def wait_for_element
@@ -40,10 +43,6 @@ class Browser
       sleep RETRY_INTERVAL
       load_time += RETRY_INTERVAL
       retry if load_time <= TIMEOUT
-      end
     end
-
-  def body
-    @body = browser.body
   end
 end

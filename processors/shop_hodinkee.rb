@@ -40,12 +40,11 @@ module Processors
     private
 
     def browser
-      @browser = Browser.new
+      @browser = Browser.instance
     end
 
     def parser(content:)
       @parser = Parser.new(content)
     end
-
   end
 end

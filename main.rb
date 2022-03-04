@@ -4,3 +4,5 @@ require_relative 'services/parser'
 require_relative 'processors/shop_hodinkee'
 
 puts Processors::ShopHodinkee.call
+
+at_exit { Browser.instance.exit_browser }
