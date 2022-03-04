@@ -26,9 +26,9 @@ class ShopHodinkeeProcessor < BaseProcessor
       )
     end
 
-    if parser(content: page_content).parse_link('[aria-label="next page"]')
-      @page += 1
-      call
-    end
+    return browser.exit_browser unless parser(content: page_content).parse_link('[aria-label="next page"]')
+
+    @page += 1
+    call
   end
 end
