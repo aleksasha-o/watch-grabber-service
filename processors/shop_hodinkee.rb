@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require_relative '../services/browser'
-require_relative '../services/parser'
+require_relative '../services/parsers/parser'
 require_relative '../models/shop_hodinkee_model'
 
 module Processors
@@ -44,8 +44,7 @@ module Processors
     end
 
     def parser(content:)
-      @parser = Parser.new(content)
+      @parser = Parsers::Parser.new(content)
     end
-
   end
 end
