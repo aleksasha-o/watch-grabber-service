@@ -8,6 +8,5 @@ module Models
     def initialize(**args)
       super
     end
-
   end
 end
