@@ -21,7 +21,7 @@ class BaseProcessor
     @browser ||= Browser.new
   end
 
-  def parser(content:)
-    @parser = Parsers::Parser.new(content)
+  def parser(content)
+    Parsers::Parser.new(content)
   end
 end
