@@ -12,18 +12,15 @@ class Browser
 
   def visit(url:, tag:)
     browser.network.intercept
-    browser.on(:request) do |request|
-      next request.abort if request.match?(FORMATS)
-
-      request.continue
-    end
+    browser.on(:request) { |request| !request.match?(FORMATS) ? request.continue : request.abort }
     browser.go_to(url)
     wait_for_element
 
-    body
-    browser.quit
+    browser.body
+  end
 
-    @body
+  def exit_browser
+    browser.quit
   end
 
   private
