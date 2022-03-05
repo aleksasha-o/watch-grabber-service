@@ -3,12 +3,12 @@ require_relative '../services/browser'
 require_relative '../services/parsers/parser'
 
 class BaseProcessor
-  def initialize(page)
+  def initialize(page: 1)
     @page = page
   end
 
   def self.call(page: 1)
-    new(page).call
+    new(page: page).call
   end
 
   def call
