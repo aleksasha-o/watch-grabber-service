@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 require_relative '../services/browser'
-require_relative '../services/parsers/parser'
 
 class BaseProcessor
   def initialize(page: 1)
@@ -19,9 +18,5 @@ class BaseProcessor
 
   def browser
     @browser ||= Browser.new
-  end
-
-  def parser(content)
-    Parsers::Parser.new(content)
   end
 end
