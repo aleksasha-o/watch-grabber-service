@@ -29,6 +29,6 @@ class BaseParser
   end
 
   def parse_content_by_tag(tag)
-    Nokogiri::HTML(@html).search(tag)[0]&.content
+    Nokogiri::HTML(@html).search(tag).map(&:content)
   end
 end

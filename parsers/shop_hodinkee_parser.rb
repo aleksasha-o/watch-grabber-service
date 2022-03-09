@@ -4,9 +4,23 @@ require_relative 'base_parser'
 class ShopHodinkeeParser < BaseParser
   def attributes
     {
-      brand: brand,
-      model: model,
-      price: price
+      brand:             brand,
+      model:             features[:model],
+      price:             price,
+      dial_color:        features[:dial],
+      case_material:     case_material,
+      case_dimensions:   features[:dimensions],
+      bracelet_material: features[:'bracelet/strap'],
+      movement_type:     features[:caliber],
+      crystal:           features[:crystal],
+      water_resistance:  features[:'water resistance'],
+      reference_number:  features[:reference],
+      functions:         features[:functions],
+      caseback:          features[:caseback],
+      power_reserve:     features[:'power reserve'],
+      manufactured:      features[:manufactured],
+      lug_width:         features[:'lug width'],
+      lume:              features[:lume],
     }
   end
 
@@ -21,14 +35,26 @@ class ShopHodinkeeParser < BaseParser
   private
 
   def brand
-    parse_content_by_tag('.vendor')
+    parse_content_by_tag('.vendor')[0]
   end
 
   def model
-    parse_content_by_tag('//*[@id="watch-pdp"]/div/div[1]/div/div[2]/div/h1/text()')
+    parse_content_by_tag('//*[@id="watch-pdp"]/div/div[1]/div/div[2]/div/h1/text()')[0]
   end
 
   def price
-    parse_content_by_tag('.price')
+    parse_content_by_tag('.price')[0]
+  end
+
+  def features
+    parse_content_by_tag('.features__list ul li')
+                    .map { |str| str.split(': ', 2) }
+                    .reject{ |pair| pair.size < 2 }
+                    .to_h.transform_keys!{ |key| key.downcase.to_sym }
+  end
+
+  def case_material
+    materials_array = [features[:material], features[:materials]].compact
+    materials_array.join(' ') if materials_array.any?
   end
 end
