@@ -39,8 +39,7 @@ class ShopHodinkeeProcessor < BaseProcessor
       content = visit_item(item_url)
       attributes = parse_item_attributes(content)
 
-      puts attributes
-      ShopHodinkeeModel.new(**attributes)
+      puts ShopHodinkeeModel.new(**attributes).inspect
     end
   end
 

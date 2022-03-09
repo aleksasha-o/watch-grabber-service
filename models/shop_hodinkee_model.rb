@@ -2,5 +2,13 @@
 require_relative 'base_model'
 
 class ShopHodinkeeModel < BaseModel
-  attr_accessor :water_resistance
+  HODINKEE_ATTRIBUTES = %i[crystal water_resistance reference_number functions
+                           caseback power_reserve manufactured lug_width lume]
+
+  attr_accessor *HODINKEE_ATTRIBUTES
+
+  def initialize(**args)
+    super
+    set_attributes(args, HODINKEE_ATTRIBUTES)
+  end
 end
