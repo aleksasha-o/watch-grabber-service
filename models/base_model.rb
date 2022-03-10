@@ -2,9 +2,9 @@
 
 class BaseModel
   ATTRIBUTES = %i[brand model price dial_color case_material
-                  case_dimensions bracelet_material movement_type]
+                  case_dimensions bracelet_material movement_type].freeze
 
-  attr_accessor *ATTRIBUTES
+  attr_accessor(*ATTRIBUTES)
 
   def initialize(**args)
     set_attributes(args, ATTRIBUTES)
