@@ -3,6 +3,8 @@
 require 'nokogiri'
 
 class BaseParser
+  PRICE_EXPRESSION = /\d+(?:,\d+)?/
+
   def initialize(html)
     @html = html
   end
@@ -31,5 +33,9 @@ class BaseParser
 
   def parse_content_by_tag(tag)
     Nokogiri::HTML(@html).search(tag).map(&:content)
+  end
+
+  def parse_html(tag)
+    Nokogiri::HTML(@html).search(tag)
   end
 end
