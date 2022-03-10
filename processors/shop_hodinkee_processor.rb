@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative './base_processor'
 require_relative '../models/shop_hodinkee_model'
 require_relative '../parsers/shop_hodinkee_parser'

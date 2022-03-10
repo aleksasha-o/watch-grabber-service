@@ -1,7 +1,9 @@
 # frozen_string_literal: true
+
 require_relative 'base_parser'
 
 class ShopHodinkeeParser < BaseParser
+  # rubocop:disable Metrics/MethodLength
   def attributes
     {
       brand:             brand,
@@ -20,9 +22,10 @@ class ShopHodinkeeParser < BaseParser
       power_reserve:     features[:'power reserve'],
       manufactured:      features[:manufactured],
       lug_width:         features[:'lug width'],
-      lume:              features[:lume],
+      lume:              features[:lume]
     }
   end
+  # rubocop:enable Metrics/MethodLength
 
   def item_urls
     parse_links('.product-title')
@@ -48,9 +51,9 @@ class ShopHodinkeeParser < BaseParser
 
   def features
     parse_content_by_tag('.features__list ul li')
-                    .map { |str| str.split(': ', 2) }
-                    .reject{ |pair| pair.size < 2 }
-                    .to_h.transform_keys!{ |key| key.downcase.to_sym }
+      .map { |str| str.split(': ', 2) }
+      .reject { |pair| pair.size < 2 }
+      .to_h.transform_keys! { |key| key.downcase.to_sym }
   end
 
   def case_material
