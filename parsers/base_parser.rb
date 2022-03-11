@@ -5,26 +5,44 @@ require 'nokogiri'
 class BaseParser
   PRICE_EXPRESSION = /\d+(?:,\d+)?/
 
+  attr_reader :nokogiri
+
   def initialize(html)
-    @html = html
+    @nokogiri = Nokogiri::HTML(html)
   end
 
   def attributes
-    raise NotImplementedError, 'Method #attributes has to be implemented!'
+    base_attributes.merge!(other_attributes)
   end
 
+  # rubocop:disable Metrics/MethodLength
+  def base_attributes
+    {
+      brand:             brand,
+      model:             model,
+      price:             price,
+      currency:          currency,
+      dial_color:        dial_color,
+      case_material:     case_material,
+      case_dimensions:   case_dimensions,
+      bracelet_material: bracelet_material,
+      movement_type:     movement_type
+    }
+  end
+  # rubocop:enable Metrics/MethodLength
+
   def item_urls
-    raise NotImplementedError, 'Method #attributes has to be implemented!'
+    parse_links(self.class::ITEM_TAG)
   end
 
   def next_page_exists?
-    raise NotImplementedError, 'Method #attributes has to be implemented!'
+    parse_link(self.class::NEXT_PAGE_TAG)
   end
 
   private
 
   def parse_links(tag)
-    Nokogiri::HTML(@html).search(tag).map { |link| link[:href] }
+    parse_html(tag).map { |link| link[:href] }
   end
 
   def parse_link(tag)
@@ -32,10 +50,22 @@ class BaseParser
   end
 
   def parse_content_by_tag(tag)
-    Nokogiri::HTML(@html).search(tag).map(&:content)
+    parse_html(tag).map(&:content)
   end
 
   def parse_html(tag)
-    Nokogiri::HTML(@html).search(tag)
+    nokogiri.search(tag)
+  end
+
+  def brand
+    parse_content_by_tag(self.class::BRAND_TAG)[0]
+  end
+
+  def price
+    parse_content_by_tag(self.class::PRICE_TAG)[0]&.scan(PRICE_EXPRESSION)&.join
+  end
+
+  def currency
+    self.class::CURRENCY
   end
 end
