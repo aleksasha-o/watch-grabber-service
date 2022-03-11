@@ -41,10 +41,6 @@ class ShopHodinkeeParser < BaseParser
     parse_content_by_tag('.vendor')[0]
   end
 
-  def model
-    parse_content_by_tag('//*[@id="watch-pdp"]/div/div[1]/div/div[2]/div/h1/text()')[0]
-  end
-
   def price
     parse_content_by_tag('.price')[0]
   end
