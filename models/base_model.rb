@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class BaseModel
-  ATTRIBUTES = %i[brand model price dial_color case_material
+  ATTRIBUTES = %i[brand model price currency dial_color case_material
                   case_dimensions bracelet_material movement_type].freeze
 
   attr_accessor(*ATTRIBUTES)

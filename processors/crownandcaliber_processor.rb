@@ -5,50 +5,28 @@ require_relative '../models/crownandcaliber_model'
 require_relative '../parsers/crownandcaliber_parser'
 
 class CrownandcaliberProcessor < BaseProcessor
-  attr_accessor :page_content, :page
+  PAGE_TAG = '.card-title.ng-binding'
+  ITEM_TAG = '.vendor'
 
-  HOST = 'https://www.crownandcaliber.com/'
+  PROTOCOL = 'https'
+  HOST = 'www.crownandcaliber.com/'
   PAGINATION_SELECTOR = 'collections/shop-for-watches?page='
-
-  def call
-    visit_page
-    parse_item_links
-    visit_and_parse_items
-
-    return browser.exit_browser unless page_parser.next_page_exists?
-
-    @page += 1
-    call
-  end
 
   private
 
-  def visit_page
-    @page_content = browser.visit(url: "#{HOST}#{PAGINATION_SELECTOR}#{@page}", tag: '.card-title.ng-binding')
+  def page_url
+    "#{PROTOCOL}://#{HOST}#{PAGINATION_SELECTOR}#{@page}"
   end
 
-  def parse_item_links
-    @item_links = page_parser.item_urls
+  def parser
+    CrownandcaliberParser
   end
 
-  def page_parser
-    CrownandcaliberParser.new(@page_content)
+  def full_item_url(part_of_url)
+    "#{PROTOCOL}:#{part_of_url}"
   end
 
-  def visit_and_parse_items
-    @item_links.each do |item_url|
-      content = visit_item("https:#{item_url}")
-      attributes = parse_item_attributes(content)
-
-      puts CrownandcaliberModel.new(**attributes).inspect
-    end
-  end
-
-  def visit_item(url)
-    browser.visit(url: url, tag: '.vendor')
-  end
-
-  def parse_item_attributes(item_content)
-    CrownandcaliberParser.new(item_content).attributes
+  def model
+    CrownandcaliberModel
   end
 end
