@@ -19,7 +19,7 @@ class ShopHodinkeeParser < BaseParser
   LUG_TAG = 'lug width'
 
   # rubocop:disable Metrics/MethodLength
-  def other_attributes
+  def additional_attributes
     {
       crystal:          features[:crystal],
       water_resistance: features[:RESISTANCE_TAG],

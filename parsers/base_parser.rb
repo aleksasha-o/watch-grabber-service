@@ -5,14 +5,14 @@ require 'nokogiri'
 class BaseParser
   PRICE_EXPRESSION = /\d+(?:,\d+)?/
 
-  attr_reader :nokogiri
+  attr_reader :engine
 
   def initialize(html)
-    @nokogiri = Nokogiri::HTML(html)
+    @engine = Nokogiri::HTML(html)
   end
 
   def attributes
-    base_attributes.merge!(other_attributes)
+    base_attributes.merge!(additional_attributes)
   end
 
   # rubocop:disable Metrics/MethodLength
@@ -35,7 +35,7 @@ class BaseParser
     parse_links(self.class::ITEM_TAG)
   end
 
-  def next_page_exists?
+  def next_page?
     parse_link(self.class::NEXT_PAGE_TAG)
   end
 
@@ -54,7 +54,7 @@ class BaseParser
   end
 
   def parse_html(tag)
-    nokogiri.search(tag)
+    engine.search(tag)
   end
 
   def brand

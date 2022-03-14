@@ -25,7 +25,7 @@ class CrownandcaliberParser < BaseParser
   SPACE_EXPRESSION = /\s{2,}/
 
   # rubocop:disable Metrics/MethodLength
-  def other_attributes
+  def additional_attributes
     {
       papers:         features[:papers],
       box:            features[:box],

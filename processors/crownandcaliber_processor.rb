@@ -8,14 +8,14 @@ class CrownandcaliberProcessor < BaseProcessor
   PAGE_TAG = '.card-title.ng-binding'
   ITEM_TAG = '.vendor'
 
-  PROTOCOL = 'https:'
-  HOST = '//www.crownandcaliber.com/'
+  PROTOCOL = 'https'
+  HOST = 'www.crownandcaliber.com/'
   PAGINATION_SELECTOR = 'collections/shop-for-watches?page='
 
   private
 
   def page_url
-    "#{PROTOCOL}#{HOST}#{PAGINATION_SELECTOR}#{@page}"
+    "#{PROTOCOL}://#{HOST}#{PAGINATION_SELECTOR}#{@page}"
   end
 
   def parser
@@ -23,7 +23,7 @@ class CrownandcaliberProcessor < BaseProcessor
   end
 
   def full_item_url(part_of_url)
-    "#{PROTOCOL}#{part_of_url}"
+    "#{PROTOCOL}:#{part_of_url}"
   end
 
   def model

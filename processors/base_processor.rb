@@ -18,7 +18,7 @@ class BaseProcessor
     parse_item_links
     visit_and_parse_items
 
-    return browser.exit_browser unless page_parser.next_page_exists?
+    return browser.exit_browser unless page_parser.next_page?
 
     @page += 1
     call
