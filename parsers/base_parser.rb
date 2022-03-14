@@ -4,6 +4,7 @@ require 'nokogiri'
 
 class BaseParser
   PRICE_EXPRESSION = /\d+(?:,\d+)?/
+  CURRENCY = 'USD'
 
   attr_reader :engine
 
@@ -21,7 +22,7 @@ class BaseParser
       brand:             brand,
       model:             model,
       price:             price,
-      currency:          currency,
+      currency:          CURRENCY,
       dial_color:        dial_color,
       case_material:     case_material,
       case_dimensions:   case_dimensions,
@@ -57,15 +58,7 @@ class BaseParser
     engine.search(tag)
   end
 
-  def brand
-    parse_content_by_tag(self.class::BRAND_TAG)[0]
-  end
-
   def price
     parse_content_by_tag(self.class::PRICE_TAG)[0]&.scan(PRICE_EXPRESSION)&.join
-  end
-
-  def currency
-    self.class::CURRENCY
   end
 end

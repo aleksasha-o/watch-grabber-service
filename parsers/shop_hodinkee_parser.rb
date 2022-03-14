@@ -9,32 +9,35 @@ class ShopHodinkeeParser < BaseParser
   BRAND_TAG = '.vendor'
   MODEL_TAG = '//*[@id="watch-pdp"]/div/div[1]/div/div[2]/div/h1/text()'
   PRICE_TAG = '.price'
-  CURRENCY = 'USD'
 
   FEATURES_TAG = '.features__list ul li'
 
-  BRACELET_TAG = 'bracelet/strap'
-  RESISTANCE_TAG = 'water resistance'
-  POWER_TAG = 'power reserve'
-  LUG_TAG = 'lug width'
+  BRACELET_TAG = :'bracelet/strap'
+  RESISTANCE_TAG = :'water resistance'
+  POWER_TAG = :'power reserve'
+  LUG_TAG = :'lug width'
 
   # rubocop:disable Metrics/MethodLength
   def additional_attributes
     {
       crystal:          features[:crystal],
-      water_resistance: features[:RESISTANCE_TAG],
+      water_resistance: features[RESISTANCE_TAG],
       reference_number: features[:reference],
       functions:        features[:functions],
       caseback:         features[:caseback],
-      power_reserve:    features[:POWER_TAG],
+      power_reserve:    features[POWER_TAG],
       manufactured:     features[:manufactured],
-      lug_width:        features[:LUG_TAG],
+      lug_width:        features[LUG_TAG],
       lume:             features[:lume]
     }
   end
   # rubocop:enable Metrics/MethodLength
 
   private
+
+  def brand
+    parse_content_by_tag(BRAND_TAG)[0]
+  end
 
   def model
     features[:model]&.strip || parse_content_by_tag(MODEL_TAG)[0]&.strip
@@ -54,7 +57,7 @@ class ShopHodinkeeParser < BaseParser
   end
 
   def bracelet_material
-    features[:BRACELET_TAG]
+    features[BRACELET_TAG]
   end
 
   def movement_type

@@ -9,18 +9,17 @@ class CrownandcaliberParser < BaseParser
   BRAND_TAG = '.vendor'
   MODEL_TAG = '.main-product-name'
   PRICE_TAG = '//*[@id="ProductPrice-product-template"]'
-  CURRENCY = 'USD'
 
   FEATURES_TAG = '.prod-specs div'
 
-  DIAL_TAG = 'dial color'
-  CASE_MATERIAL_TAG = 'case material'
-  DIMENSION_TAG = 'case size'
-  CASEBACK_TAG = 'case back'
-  POWER_TAG = 'power reserve'
-  LUG_TAG = 'lug width'
-  WRIST_TAG = 'max. wrist size'
-  THICKNESS_TAG = 'case thickness'
+  DIAL_TAG = :'dial color'
+  CASE_MATERIAL_TAG = :'case material'
+  DIMENSION_TAG = :'case size'
+  CASEBACK_TAG = :'case back'
+  POWER_TAG = :'power reserve'
+  LUG_TAG = :'lug width'
+  WRIST_TAG = :'max. wrist size'
+  THICKNESS_TAG = :'case thickness'
 
   SPACE_EXPRESSION = /\s{2,}/
 
@@ -33,33 +32,37 @@ class CrownandcaliberParser < BaseParser
       gender:         features[:gender],
       crystal:        features[:crystal],
       condition:      features[:condition],
-      caseback:       features[:CASEBACK_TAG],
-      power_reserve:  features[:POWER_TAG],
-      lug_width:      features[:LUG_TAG],
+      caseback:       features[CASEBACK_TAG],
+      power_reserve:  features[POWER_TAG],
+      lug_width:      features[LUG_TAG],
       bezel_material: features[:bezel],
       manual:         features[:manual],
-      max_wrist_size: features[:WRIST_TAG],
-      case_thickness: features[:THICKNESS_TAG]
+      max_wrist_size: features[WRIST_TAG],
+      case_thickness: features[THICKNESS_TAG]
     }
   end
   # rubocop:enable Metrics/MethodLength
 
   private
 
+  def brand
+    parse_content_by_tag(BRAND_TAG)[0]
+  end
+
   def model
     parse_content_by_tag(MODEL_TAG)[0]
   end
 
   def dial_color
-    features[:DIAL_TAG]
+    features[DIAL_TAG]
   end
 
   def case_material
-    features[:CASE_MATERIAL_TAG]
+    features[CASE_MATERIAL_TAG]
   end
 
   def case_dimensions
-    features[:DIMENSION_TAG]
+    features[DIMENSION_TAG]
   end
 
   def bracelet_material
