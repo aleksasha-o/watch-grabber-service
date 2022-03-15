@@ -13,7 +13,7 @@ class BobswatchesParser < BaseParser
     BOX_2         = :'box and papers',
     YEAR          = :'serial/year',
     CONDITION     = :"condition (what's this?)",
-    REGULAR_PRICE = :"\nregular price"
+    REGULAR_PRICE = :'regular price'
   ].freeze
 
   def additional_attributes
@@ -22,7 +22,7 @@ class BobswatchesParser < BaseParser
       year:           year,
       gender:         features[:gender],
       condition:      features[CONDITION],
-      regular_price:  features[REGULAR_PRICE]
+      regular_price:  regular_price
     }
   end
 
@@ -64,14 +64,16 @@ class BobswatchesParser < BaseParser
     features[YEAR]&.scan(/\d{2,}$/)&.join
   end
 
+  def regular_price
+    features[REGULAR_PRICE]&.scan(PRICE_EXPRESSION)&.join
+  end
+
   def features
-    features_hash = {}
-    parse_html(FEATURES).each do |table|
+    @features ||= parse_html(FEATURES).each_with_object({}) do |table, hash|
       table.search('tr').each do |row|
         node = row.children.reject { |elem| elem.content == ' ' || elem.content == "\n" }
-        features_hash[node.first.content.delete!(':')&.strip&.downcase&.to_sym] = node.last.content&.strip
+        hash[node.first.content.delete!(':')&.strip&.downcase&.to_sym] = node.last.content&.strip
       end
     end
-    features_hash
   end
 end

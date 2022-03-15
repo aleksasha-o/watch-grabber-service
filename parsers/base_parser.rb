@@ -3,7 +3,7 @@
 require 'nokogiri'
 
 class BaseParser
-  PRICE_EXPRESSION = /\d+(?:,\d+)?/
+  PRICE_EXPRESSION = /\d+(?:,\d+).\d*/
   CURRENCY = 'USD'
 
   attr_reader :engine
