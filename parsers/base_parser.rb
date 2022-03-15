@@ -37,7 +37,7 @@ class BaseParser
   end
 
   def next_page?
-    parse_link(self.class::NEXT_PAGE)
+    parse_html(self.class::NEXT_PAGE)[0]
   end
 
   private
