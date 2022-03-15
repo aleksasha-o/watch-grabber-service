@@ -3,26 +3,26 @@
 require_relative 'base_parser'
 
 class BobswatchesParser < BaseParser
-  ITEM_TAG = '.item form a'
-  NEXT_PAGE_TAG = '.categoryPaginationButtonNextLast a[href]'
-
-  MODEL_TAG = :'model name/number'
-  PRICE_TAG = '[itemprop="price"]'
-
-  FEATURES_TAG = '.descriptioncontainer table'
-  BOX_TAG_1 = :'box & papers'
-  BOX_TAG_2 = :'box and papers'
-  YEAR_TAG = :'serial/year'
-  CONDITON_TAG = :"condition (what's this?)"
-  REGULAR_PRICE_TAG = :"\nregular price"
+  TAGS = [
+    ITEM = '.item form a',
+    NEXT_PAGE = '.categoryPaginationButtonNextLast a[href]',
+    MODEL = :'model name/number',
+    PRICE = '[itemprop="price"]',
+    FEATURES = '.descriptioncontainer table',
+    BOX_1 = :'box & papers',
+    BOX_2 = :'box and papers',
+    YEAR = :'serial/year',
+    CONDITION = :"condition (what's this?)",
+    REGULAR_PRICE = :"\nregular price"
+  ]
 
   def additional_attributes
     {
       box_and_papers: box_papers,
       year:           year,
       gender:         features[:gender],
-      condition:      features[CONDITON_TAG],
-      regular_price:  features[REGULAR_PRICE_TAG]
+      condition:      features[CONDITION],
+      regular_price:  features[REGULAR_PRICE]
     }
   end
 
@@ -33,7 +33,7 @@ class BobswatchesParser < BaseParser
   end
 
   def model
-    features[MODEL_TAG]
+    features[MODEL]
   end
 
   def dial_color
@@ -57,16 +57,16 @@ class BobswatchesParser < BaseParser
   end
 
   def box_papers
-    features[BOX_TAG_1] || features[BOX_TAG_2]
+    features[BOX_1] || features[BOX_2]
   end
 
   def year
-    features[YEAR_TAG]&.scan(/\d{2,}$/)&.join
+    features[YEAR]&.scan(/\d{2,}$/)&.join
   end
 
   def features
     features_hash = {}
-    parse_html(FEATURES_TAG).each do |table|
+    parse_html(FEATURES).each do |table|
       table.search('tr').each do |row|
         node = row.children.reject { |elem| elem.content == ' ' || elem.content == "\n" }
         features_hash[node.first.content.delete!(':')&.strip&.downcase&.to_sym] = node.last.content&.strip

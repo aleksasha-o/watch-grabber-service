@@ -5,8 +5,10 @@ require_relative '../models/bobswatches_model'
 require_relative '../parsers/bobswatches_parser'
 
 class BobswatchesProcessor < BaseProcessor
-  PAGE_TAG = '.product-title'
-  ITEM_TAG = '.price'
+  TAGS = [
+    PAGE = '.product-title',
+    ITEM = '.price'
+  ]
 
   HOST = 'https://www.bobswatches.com/'
   PAGINATION_SELECTOR = 'shop?page='

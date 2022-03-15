@@ -31,7 +31,7 @@ class BaseProcessor
   end
 
   def visit_page
-    @page_content = browser.visit(url: page_url, tag: self.class::PAGE_TAG)
+    @page_content = browser.visit(url: page_url, tag: self.class::PAGE)
   end
 
   def parse_item_links
@@ -52,7 +52,7 @@ class BaseProcessor
   end
 
   def visit_item(part_of_url)
-    browser.visit(url: full_item_url(part_of_url), tag: self.class::ITEM_TAG)
+    browser.visit(url: full_item_url(part_of_url), tag: self.class::ITEM)
   end
 
   def parse_item_attributes(item_content)

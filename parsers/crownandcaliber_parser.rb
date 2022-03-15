@@ -3,24 +3,22 @@
 require_relative 'base_parser'
 
 class CrownandcaliberParser < BaseParser
-  ITEM_TAG = '.grid-view-item__link'
-  NEXT_PAGE_TAG = '.arrow.next:not(.disabled)'
-
-  BRAND_TAG = '.vendor'
-  MODEL_TAG = '.main-product-name'
-  PRICE_TAG = '//*[@id="ProductPrice-product-template"]'
-
-  FEATURES_TAG = '.prod-specs div'
-
-  DIAL_TAG = :'dial color'
-  CASE_MATERIAL_TAG = :'case material'
-  DIMENSION_TAG = :'case size'
-  CASEBACK_TAG = :'case back'
-  POWER_TAG = :'power reserve'
-  LUG_TAG = :'lug width'
-  WRIST_TAG = :'max. wrist size'
-  THICKNESS_TAG = :'case thickness'
-
+  TAGS = [
+    ITEM = '.grid-view-item__link',
+    NEXT_PAGE = '.arrow.next:not(.disabled)',
+    BRAND = '.vendor',
+    MODEL = '.main-product-name',
+    PRICE = '//*[@id="ProductPrice-product-template"]',
+    FEATURES = '.prod-specs div',
+    DIAL = :'dial color',
+    CASE_MATERIAL = :'case material',
+    DIMENSION = :'case size',
+    CASEBACK = :'case back',
+    POWER = :'power reserve',
+    LUG = :'lug width',
+    WRIST = :'max. wrist size',
+    THICKNESS = :'case thickness'
+  ]
   SPACE_EXPRESSION = /\s{2,}/
 
   # rubocop:disable Metrics/MethodLength
@@ -32,13 +30,13 @@ class CrownandcaliberParser < BaseParser
       gender:         features[:gender],
       crystal:        features[:crystal],
       condition:      features[:condition],
-      caseback:       features[CASEBACK_TAG],
-      power_reserve:  features[POWER_TAG],
-      lug_width:      features[LUG_TAG],
+      caseback:       features[CASEBACK],
+      power_reserve:  features[POWER],
+      lug_width:      features[LUG],
       bezel_material: features[:bezel],
       manual:         features[:manual],
-      max_wrist_size: features[WRIST_TAG],
-      case_thickness: features[THICKNESS_TAG]
+      max_wrist_size: features[WRIST],
+      case_thickness: features[THICKNESS]
     }
   end
   # rubocop:enable Metrics/MethodLength
@@ -46,23 +44,23 @@ class CrownandcaliberParser < BaseParser
   private
 
   def brand
-    parse_content_by_tag(BRAND_TAG)[0]
+    parse_content_by_tag(BRAND)[0]
   end
 
   def model
-    parse_content_by_tag(MODEL_TAG)[0]
+    parse_content_by_tag(MODEL)[0]
   end
 
   def dial_color
-    features[DIAL_TAG]
+    features[DIAL]
   end
 
   def case_material
-    features[CASE_MATERIAL_TAG]
+    features[CASE_MATERIAL]
   end
 
   def case_dimensions
-    features[DIMENSION_TAG]
+    features[DIMENSION]
   end
 
   def bracelet_material
@@ -74,7 +72,7 @@ class CrownandcaliberParser < BaseParser
   end
 
   def features
-    parse_html(FEATURES_TAG)
+    parse_html(FEATURES)
       .each { |item| item.children&.[](3)&.children&.[](1)&.remove }
       .map(&:content)
       .map { |str| str.split('- ', 2) }

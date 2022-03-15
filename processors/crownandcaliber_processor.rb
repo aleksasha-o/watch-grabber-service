@@ -5,8 +5,10 @@ require_relative '../models/crownandcaliber_model'
 require_relative '../parsers/crownandcaliber_parser'
 
 class CrownandcaliberProcessor < BaseProcessor
-  PAGE_TAG = '.card-title.ng-binding'
-  ITEM_TAG = '.vendor'
+  TAGS = [
+    PAGE = '.card-title.ng-binding',
+    ITEM = '.vendor'
+  ]
 
   PROTOCOL = 'https'
   HOST = 'www.crownandcaliber.com/'

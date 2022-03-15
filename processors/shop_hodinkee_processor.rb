@@ -5,8 +5,10 @@ require_relative '../models/shop_hodinkee_model'
 require_relative '../parsers/shop_hodinkee_parser'
 
 class ShopHodinkeeProcessor < BaseProcessor
-  PAGE_TAG = '.product-title'
-  ITEM_TAG = '.vendor'
+  TAGS = [
+    PAGE = '.product-title',
+    ITEM = '.vendor'
+  ]
 
   HOST = 'https://shop.hodinkee.com/'
   PAGINATION_SELECTOR = 'collections/watches?page='
