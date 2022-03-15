@@ -22,7 +22,7 @@ class BobswatchesParser < BaseParser
       year:           year,
       gender:         features[:gender],
       condition:      features[CONDITION],
-      regular_price:  regular_price
+      regular_price:  features[REGULAR_PRICE]
     }
   end
 
@@ -62,10 +62,6 @@ class BobswatchesParser < BaseParser
 
   def year
     features[YEAR]&.scan(/\d{2,}$/)&.join
-  end
-
-  def regular_price
-    features[REGULAR_PRICE]&.scan(PRICE_EXPRESSION)&.join
   end
 
   def features
