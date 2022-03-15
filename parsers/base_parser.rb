@@ -33,11 +33,11 @@ class BaseParser
   # rubocop:enable Metrics/MethodLength
 
   def item_urls
-    parse_links(self.class::ITEM_TAG)
+    parse_links(self.class::ITEM)
   end
 
   def next_page?
-    parse_link(self.class::NEXT_PAGE_TAG)
+    parse_link(self.class::NEXT_PAGE)
   end
 
   private
@@ -59,6 +59,6 @@ class BaseParser
   end
 
   def price
-    parse_content_by_tag(self.class::PRICE_TAG)[0]&.scan(PRICE_EXPRESSION)&.join
+    parse_content_by_tag(self.class::PRICE)[0]&.scan(PRICE_EXPRESSION)&.join
   end
 end
