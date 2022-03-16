@@ -59,6 +59,6 @@ class BaseParser
   end
 
   def price
-    parse_content_by_tag(self.class::PRICE)[0]&.scan(PRICE_EXPRESSION)&.join&.delete!(',')
+    parse_content_by_tag(self.class::PRICE)[0]&.scan(PRICE_EXPRESSION)&.join&.gsub(',', '')
   end
 end
